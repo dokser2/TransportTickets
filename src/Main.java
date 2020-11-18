@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Scanner;
 
 public class Main {
@@ -28,15 +31,48 @@ public class Main {
             }
         }
 
+        tickets[0].setYear(1600);
+        tickets[1].setYear(1600);
+        tickets[2].setYear(1600);
+        tickets[3].setYear(1600);
+        tickets[4].setYear(1600);
+        tickets[5].setYear(1600);
+        tickets[6].setYear(1600);
+        tickets[7].setYear(1600);
+        tickets[8].setYear(1600);
+        tickets[9].setYear(1600);
+        tickets[10].setYear(1600);
+        tickets[11].setYear(1600);
+        tickets[12].setYear(1600);
+        tickets[13].setYear(1600);
+        tickets[14].setYear(1600);
+        tickets[15].setYear(1600);
+        tickets[16].setYear(1600);
+        tickets[17].setYear(1602);
+        tickets[18].setYear(1601);
+        tickets[19].setYear(1604);
+
+
         System.out.println("If you want know total price enter:  1 ");
         System.out.println("If you want know if the same year enter:  2 ");
         System.out.println("If you want know the most travelling month enter:  3 ");
+        System.out.println("If you want to know haw much day between the first and the last tickets enter: 4");
+        System.out.println("If you want to know haw much day between the first and the last tickets \n" +
+                "without leap years enter: 5");
 
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
         switch (n) {
             case 1:
                 System.out.println(String.format("%.2f", totalPrice(tickets)));
+                System.out.println(sameYear(tickets));
+                System.out.println(mostTravelingMonth(tickets));
+                howMuchTheDays(tickets);
+                howMTDWithoutBigYear(tickets);
+                for (Ticket t:tickets){
+                    System.out.println(t.toString());
+                }
+
                 break;
             case 2:
                 System.out.println(sameYear(tickets));
@@ -44,12 +80,16 @@ public class Main {
             case 3:
                 System.out.println(mostTravelingMonth(tickets));
                 break;
+            case 4:
+                howMuchTheDays(tickets);
+                break;
+            case 5:
+                howMTDWithoutBigYear(tickets);
+                break;
             default:
                 System.out.println("the wrong number");
                 break;
         }
-
-
 
 
     }
@@ -138,6 +178,74 @@ public class Main {
             }
         }
         return s;
+    }
+
+    public static void howMuchTheDays(Ticket[] tickets) {
+        Date[] dates = new Date[20];
+        for (int i = 0; i < tickets.length; i++) {
+            dates[i] = new Date();
+            dates[i].setMonth(tickets[i].getMonth() - 1);
+            dates[i].setYear(tickets[i].getYear());
+            dates[i].setDate(tickets[i].getDate());
+            // System.out.println(dates[i].getYear()+" "+dates[i].getMonth()+" "+dates[i].getDate());
+        }
+
+        long[] milisecunds = new long[20];
+        for (int i = 0; i < dates.length; i++) {
+            milisecunds[i] = dates[i].getTime();
+        }
+        long max = Long.MIN_VALUE;
+        long min = Long.MAX_VALUE;
+        for (long m : milisecunds) {
+            if (m > max) {
+                max = m;
+            }
+            if (m < min) {
+                min = m;
+            }
+        }
+        int maxDays = (int) (max / (24 * 60 * 60 * 1000));
+        int minDays = (int) (min / (24 * 60 * 60 * 1000));
+        int days = maxDays - minDays;
+        System.out.println(days);
+
+    }
+
+    public static void howMTDWithoutBigYear(Ticket[] tickets) {
+        Date[] dates = new Date[20];
+        for (int i = 0; i < tickets.length; i++) {
+            dates[i] = new Date();
+            dates[i].setMonth(tickets[i].getMonth() - 1);
+            dates[i].setYear(tickets[i].getYear());
+            dates[i].setDate(tickets[i].getDate());
+            // System.out.println(dates[i].getYear()+" "+dates[i].getMonth()+" "+dates[i].getDate());
+        }
+
+        ArrayList<Long> milisecundsArList = new ArrayList<>();
+        for (Date d:dates) {
+            if (d.getYear()%4>0||d.getTime()%100>0){
+                milisecundsArList.add(d.getTime());
+            }
+
+        }
+        long max = Long.MIN_VALUE;
+        long min = Long.MAX_VALUE;
+        for (long m : milisecundsArList) {
+            if (m > max) {
+                max = m;
+            }
+            if (m < min) {
+                min = m;
+            }
+        }
+        int maxDays = (int) (max / (24 * 60 * 60 * 1000));
+        int minDays = (int) (min / (24 * 60 * 60 * 1000));
+        int days = maxDays - minDays;
+        System.out.println(days);
+        for (long l:milisecundsArList){
+            System.out.println(l/(24*60*60*1000));
+        }
+
     }
 }
 
