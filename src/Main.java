@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -69,7 +68,7 @@ public class Main {
                 System.out.println(mostTravelingMonth(tickets));
                 howMuchTheDays(tickets);
                 howMTDWithoutBigYear(tickets);
-                for (Ticket t:tickets){
+                for (Ticket t : tickets) {
                     System.out.println(t.toString());
                 }
 
@@ -222,9 +221,12 @@ public class Main {
         }
 
         ArrayList<Long> milisecundsArList = new ArrayList<>();
-        for (Date d:dates) {
-            if (d.getYear()%4>0||d.getTime()%100>0){
+        int countOfLearYear = 0;
+        for (Date d : dates) {
+            if (d.getYear() % 4 > 0 || d.getTime() % 100 > 0) {
                 milisecundsArList.add(d.getTime());
+            }else {
+                countOfLearYear++;
             }
 
         }
@@ -240,10 +242,11 @@ public class Main {
         }
         int maxDays = (int) (max / (24 * 60 * 60 * 1000));
         int minDays = (int) (min / (24 * 60 * 60 * 1000));
-        int days = maxDays - minDays;
+        int learYearsDays = countOfLearYear*366;
+        int days = maxDays - minDays - countOfLearYear;
         System.out.println(days);
-        for (long l:milisecundsArList){
-            System.out.println(l/(24*60*60*1000));
+        for (long l : milisecundsArList) {
+            System.out.println(l / (24 * 60 * 60 * 1000));
         }
 
     }
